@@ -1,0 +1,17 @@
+version: '3.7'
+services:
+  rabbit:
+    image: rabbitmq:3-management
+    ports:
+      - "15672:15672"
+      - "5672:5672"
+    restart: unless-stopped
+  client:
+    build: .
+    environment:
+      - "HOST=rabbit"
+    restart: unless-stopped
+    links:
+      - rabbit
+    depends_on:
+      - rabbit
